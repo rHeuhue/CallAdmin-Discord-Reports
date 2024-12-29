@@ -1,17 +1,16 @@
 #include <amxmodx>
 #include <regex>
+#include <curl>
 
 #define VERSION "1.0"
 
-// You must create WebHook in channel you want the report system to send the information..
-new g_szWebHook[1024] = "https://discord.com/api/webhooks/";
-
-
-#include <curl>
-
 #pragma dynamic 32768
+#define CURL_BUFFER_SIZE 4096
 
 // All the data for those defines must be provided!
+
+// You must create WebHook in channel you want the report system to send the information..
+new g_szWebHook[] = "https://discord.com/api/webhooks/";
 
 #define SERVER_NAME "Your Server Name Here"
 #define SERVER_URL "https://www.gametracker.rs/server_info/IP:PORT/" //Example:  https://www.gametracker.rs/server_info/192.168.0.1:27015/
@@ -26,8 +25,6 @@ new g_szWebHook[1024] = "https://discord.com/api/webhooks/";
 // To retrieve mention role you have to copy role id from discord and pasting it here. The role syntax is <@&RoleID> Example: <@&111111111111111111>
 // To retrieve mention role from discord: 1. @Rele 2. Add \ in front of @Role >> \@Role 3. Press Enter it will print text: <@&111111111111111111> replace your numbers with the ones here																				
 #define MENTION_ROLE "<@&111111111111111111>"
-
-#define CURL_BUFFER_SIZE 4096
 
 new g_iReportedPlayerId[MAX_PLAYERS + 1];
 
@@ -196,7 +193,7 @@ public ShowToAdmins(id, iReportedPlayerId, szReason[MAX_FMT_LENGTH])
 			replace_all(szReason, charsmax(szReason), "\r", "");
 			replace_all(szReason, charsmax(szReason), "\y", "");
 			replace_all(szReason, charsmax(szReason), "\w", "");
-			client_print_color(iAdminId, print_team_default, "%s ^1Player ^3%n ^1has been reported by ^4%n ^1for reason ^3%s^1!", g_pC_Prefix, iReportedPlayerId, id, szReason);
+			client_print_color(iAdminId, print_team_default, "^4%s ^1Player ^3%n ^1has been reported by ^4%n ^1for reason ^3%s^1!", g_pC_Prefix, iReportedPlayerId, id, szReason);
 			return PLUGIN_HANDLED;
 		}
 	}
